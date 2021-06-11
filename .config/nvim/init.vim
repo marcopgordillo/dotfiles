@@ -1,3 +1,4 @@
+" => Editing ------------------------------------------------{{{1
 syntax on                   " Enable syntax highlighting.
 filetype plugin indent on   " Enable file type based indentation.
 set autoindent              " Respect indentation when starting a new line.
@@ -24,13 +25,31 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+" Show last command in the status line.
+set showcmd
+
+" Highlight cursor line.
+" set cursorline
+
+" Ruler (line, column and % at the right bottom).
+set ruler
+
+" Display line numbers if terminal is wide enough.
+if &co > 80
+  set number
+endif
+
+" Soft word wrap.
+set linebreak
+
+" Prettier display of long lines of text.
+set display+=lastline
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_pylint_exe = 'pylint'
-
-colorscheme elflord          " Change a colorscheme.
 
 packloadall                 " Load all plugins
 silent! helptags ALL        " Load help files for all plugins
@@ -51,9 +70,17 @@ let test#strategy = "dispatch"
 noremap <leader>p :CtrlP<cr> 
 noremap <leader>b :CtrlPBuffer<cr> 
 noremap <leader>m :CtrlPMRU<cr>
+nnoremap <leader>t :CtrlPTag <cr>
 
 " Jump to function definition
 noremap <leader>] :YcmCompleter GoTo<cr>
+
+nnoremap <leader>a :Ack! <c-r><c-w><cr> " Remap Ack Command
+nnoremap <leader>g :grep <c-r><c-w> */**<cr> " Remap grep command
+
+" Accidental hitting ; instead of :
+nnoremap ; :
+vnoremap ; :
 
 noremap <leader>w :w<cr>    " Save a file with leader-w
 " Immediatly add a closing quotes or braces in insert mode.
@@ -95,20 +122,48 @@ endif
 call plug#begin()
 
 Plug 'junegunn/vim-plug'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-unimpaired'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mileszs/ack.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' } " distraction-free writing 
 let g:plug_timeout = 300  " Increase vim-plug timeout for YouCompleteMe.
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
-Plug 'sjl/gundo.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-dispatch'
-Plug 'janko-m/vim-test'
-Plug 'vim-syntastic/syntastic'
-Plug 'vim-airline/vim-airline'
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }     " AutoComplete plugin
+Plug 'sjl/gundo.vim'                    " Visualize Vim undo tree
+Plug 'tpope/vim-fugitive'               " Git for vim
+Plug 'tpope/vim-dispatch'               " dispatch tests asyncronously
+Plug 'janko-m/vim-test'                 " make testing
+Plug 'vim-syntastic/syntastic'          " Search pylint errors
+Plug 'vim-airline/vim-airline'          " bottom bar
+Plug 'easymotion/vim-easymotion'        " better move commands
+Plug 'NLKNguyen/papercolor-theme'       " colorscheme
+Plug 'ajh17/Spacegray.vim'              " colorscheme
+Plug 'altercation/vim-colors-solarized' " colorscheme
+Plug 'christoomey/vim-tmux-navigator'   " better tmux integration
+Plug 'ctrlpvim/ctrlp.vim'               " Ctrl+p to fuzzy search
+Plug 'mileszs/ack.vim'                  " ack integration
+Plug 'squarefrog/tomorrow-night.vim'    " colorscheme
+Plug 'tomtom/tcomment_vim'              " commenting helpers
+Plug 'tpope/vim-abolish'                " change case on the fly
+Plug 'tpope/vim-repeat'                 " repeat everything
+Plug 'tpope/vim-surround'               " superchange surround commands
+Plug 'tpope/vim-unimpaired'             " pairs of helpful shortcuts
+Plug 'tpope/vim-vinegar'                " - to open netrw
+Plug 'vim-scripts/Gundo'                " visualize the undo tree
+Plug 'vim-scripts/vimwiki'              " personal wiki
+Plug 'vim-python/python-syntax'         " python syntax
 
 call plug#end()
+
+" => Looks ------------------------------------------------{{{1
+set background=dark
+colorscheme PaperColor          " Change a colorscheme.
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default.dark': {
+  \       'transparent_background': 1
+  \     }
+  \   }
+  \ }
+
+ " Workaround for creating transparent bg
+    autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
+            \ |    highlight LineNr     ctermbg=NONE guibg=NONE
+            \ |    highlight SignColumn ctermbg=NONE guibg=NONE
+
