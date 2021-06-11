@@ -1,0 +1,15 @@
+[user]
+	name = Marco Gordillo
+	email = 6589245+marcopgordillo@users.noreply.github.com
+	signingkey = 6F8ABBB3C6AE83E1
+[init]
+	defaultBranch = main
+[commit]
+	gpgsign = true
+[core]
+	editor = /usr/bin/nvim
+[merge]
+	tool = nvimdiff
+	confictstyle = diff3
+[mergetool]
+	prompt = false
